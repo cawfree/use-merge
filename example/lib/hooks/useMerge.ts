@@ -22,7 +22,18 @@ export type useMergeResult = {
 };
 
 const shouldMerge = (options: useMergeOptions): useMergeResult => {
-  return { ...options };
+  const merged = Object.entries(options).reduce((obj, [k, v]) => {
+    if (v && typeof v === 'object') {
+      return Object.entries(v).reduce((obj, [p, v]) => {
+        const o = obj[p] || {};
+        o[k] = v;
+        obj[p] = o;
+        return obj;
+      }, obj);
+    }
+    return obj;
+  }, []);
+  return { ...options, merged };
 };
 
 export default function useMerge(options: useMergeOptions): useMergeResult {
