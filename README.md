@@ -41,7 +41,9 @@ export default function SomeComponent() {
 
 > We've all seen it. And it's becoming increasingly more common as hooks get ever more awesome.
 
-With `use-merge`, you can combine the outputs of multiple hooks and synchronize their requests to re-render:
+### 🤔 So... what's the answer to the problem of multiple hooks? Why, a hook of course!
+
+With `use-merge`, you can combine the outputs of multiple hooks _and_ synchronize their requests to re-render:
 
 ```javascript
 import { ActivityIndicator } from "react-native";
