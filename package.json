@@ -1,0 +1,18 @@
+{
+  "name": "use-merge",
+  "version": "0.0.1-alpha.0",
+  "description": "⚛️ 💡 Simplify the relationships between multiple hooks.",
+  "main": "dist",
+  "keywords": [
+    "react",
+    "react-native",
+    "hooks",
+    "combine",
+    "merge",
+    "synchronize"
+  ],
+  "repository": "https://github.com/cawfree/use-merge",
+  "author": "Alex Thomas (@cawfree) <hello@cawfree.com>",
+  "license": "MIT",
+  "private": false
+}
