@@ -1,6 +1,4 @@
-
-import { useState } from "react";
-import useDeepCompareEffect from "use-deep-compare-effect";
+import { useState, useEffect } from "react";
 import isEqual from "react-fast-compare";
 import debounce from "lodash.debounce";
 
@@ -103,18 +101,14 @@ function useMergeWithTransform(
     (e: useMergeResult) => requestAnimationFrame(() => setMerged(e)), 0)
   );
 
-  useDeepCompareEffect(() => {
+  useEffect(() => {
     const next = shouldMerge(options, transform);
-    if (!isEqual(merged, next))
-    requestAnimationFrame(() => setMerged(next));
-  }, [options, debouncedSetMerged, shouldMerge, transform]);
+    !isEqual(merged, next) && debouncedSetMerged(next);
+  }, [options, debouncedSetMerged, merged, shouldMerge, transform]);
 
   return merged;
 }
 
 export default function useMerge(options: useMergeOptions): useMergeIntermediateResult {
-  const [mergeWithTransform] = useState(
-    () => (transform: useMergeWithTransformOptions) => useMergeWithTransform(options, transform),
-  );
-  return mergeWithTransform;
+  return (transform) => useMergeWithTransform(options, transform);
 }

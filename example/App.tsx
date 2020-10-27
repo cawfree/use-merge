@@ -1,26 +1,28 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
 import useMerge, { By } from "use-merge";
 
 export default function App() {
-  // Hooks as normal, plus merged properties.
-  const {
-    a,
-    b,
-    e,
-    merged: { loading, error },
-  } = useMerge({
-    a: useState({ loading: false, error: new Error() }),
-    b: useState({ loading: false, error: null }),
-    c: { loading: false, error: null },
-    d: { loading: false, error: new Error() },
-    e: [{ loading: true }],
-    f: [undefined],
-  })({ error: By.Error, loading: By.Truthy });
+  const { a, b, merged: { loading } } = useMerge({
+    a: useState({ loading: false }),
+    b: useState({ loading: false }),
+  })({ loading: By.Truthy });
+
+  const [{ loading: aIsLoading }, setA] = a;
+  const [{ loading: bIsLoading }, setB] = b;
 
   return (
     <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
+      <Text children={`A is loading? ${aIsLoading}`} />
+      <Text children={`B is loading? ${bIsLoading}`} />
+      <Text children={`isLoading? ${loading}`} />
+
+      <TouchableOpacity onPress={() => setA(({ loading }) => ({ loading: !loading }))}>
+        <Text>Toggle A</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => setB(({ loading }) => ({ loading: !loading }))}>
+        <Text>Toggle B</Text>
+      </TouchableOpacity>
     </View>
   );
 }
