@@ -10,7 +10,7 @@ yarn add use-merge
 ```
 
 ### 😲 Everything and your mother is a hook now.
-Functional components are becoming increasingly complex; the wide availability of capable hooks and their applicability to the management of application state logic has made it commonplace to embed multiple hooks in a single component. Depending on the availability of asynchronous data, hooks can easily become desynchronized with one-another and necessitate multiple render lifecycles in order to harmonize with one-another.
+Functional components are becoming increasingly complex; the wide availability of capable hooks and their applicability to the management of application state logic has made it commonplace to embed multiple hooks in a single component. Depending on the availability of asynchronous data, hooks can easily become desynchronized with one-another and necessitate multiple render lifecycles in order to harmonize.
 
 What's worse, is that hooks dependent on the output of previously declared hooks require non-trivial and repetitive manual management of loading and error states to manage the render result.
 
