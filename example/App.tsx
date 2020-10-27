@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { useMerge, By } from './lib';
+import useMerge, { By } from './lib';
 
 export default function App() {
 
-  const { a, b, merged } = useMerge({
-    a: useState({ loading: true, error: new Error() }),
+  // Hooks as normal, plus merged properties.
+  const { a, b, e, merged: { loading, error } } = useMerge({
+    a: useState({ loading: false, error: new Error() }),
     b: useState({ loading: false, error: null, }),
-    c: { loading: true, error: null },
+    c: { loading: false, error: null },
     d: { loading: false, error: new Error() },
+    e: [{loading: true}],
+    f: [undefined],
   })({ error: By.Error, loading: By.Truthy });
-
-  console.log({ merged });
 
   return (
     <View style={styles.container}>
