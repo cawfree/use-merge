@@ -1,16 +1,20 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import useMerge, { By } from './lib';
+import React, { useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import useMerge, { By } from "use-merge";
 
 export default function App() {
-
   // Hooks as normal, plus merged properties.
-  const { a, b, e, merged: { loading, error } } = useMerge({
+  const {
+    a,
+    b,
+    e,
+    merged: { loading, error },
+  } = useMerge({
     a: useState({ loading: false, error: new Error() }),
-    b: useState({ loading: false, error: null, }),
+    b: useState({ loading: false, error: null }),
     c: { loading: false, error: null },
     d: { loading: false, error: new Error() },
-    e: [{loading: true}],
+    e: [{ loading: true }],
     f: [undefined],
   })({ error: By.Error, loading: By.Truthy });
 
@@ -24,8 +28,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
