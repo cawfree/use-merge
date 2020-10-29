@@ -24,16 +24,17 @@
   "dependencies": {
     "combine-errors": "^3.0.3",
     "lodash.debounce": "^4.0.8",
+    "lodash.get": "^4.4.2",
     "react-fast-compare": "^3.2.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.1",
     "@babel/core": "^7.12.3",
     "@babel/node": "^7.12.1",
-    "@babel/preset-typescript": "^7.12.1",
     "@babel/plugin-transform-typescript": "^7.12.1",
     "@babel/preset-env": "^7.12.1",
     "@babel/preset-react": "^7.12.1",
+    "@babel/preset-typescript": "^7.12.1",
     "husky": "^4.3.0",
     "jest": "^26.6.1",
     "leasot": "^11.3.0",

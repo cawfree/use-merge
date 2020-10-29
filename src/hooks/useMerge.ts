@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useCallback, useState, useEffect } from "react";
 import isEqual from "react-fast-compare";
 import debounce from "lodash.debounce";
+import get from "lodash.get";
 
 export type useMergeWithTransformOptions = {
   [key: string]: (e: unknown[]) => unknown;
@@ -14,9 +15,7 @@ export type transformResult = {
   [key: string]: unknown;
 };
 
-export type useMergeOptions = {
-  [key: string]: unknown;
-};
+export type useMergeOptions = { [key: string]: unknown } | Function;
 
 export type useMergeIntermediateResult = (transform: useMergeWithTransformOptions | undefined) => useMergeResult;
 
@@ -88,23 +87,35 @@ function useMergeWithTransform(
   options: useMergeOptions,
   transform: useMergeWithTransformOptions
 ): useMergeResult {
-  if (!options || typeof options !== 'object') {
-    throw new Error(`Expected object options, encountered ${typeof options}.`);
-  } else if (transform !== undefined && typeof transform !== "object") {
+   if (transform !== undefined && typeof transform !== "object") {
     throw new Error(`Expected object or undefined transform, encountered ${typeof transform}.`);
   }
 
-  !!options && shouldThrowOnReservedKeys(options);
+  const createInitialState = useCallback(() => ([{
+    merged: {},
+  }]), []);
 
-  const [merged, setMerged] = useState(() => shouldMerge(options, transform));
+  const [cache] = useState(createInitialState);
+  const [buf] = cache;
+
+  const opts = typeof options === 'function' ? options(Object.freeze(buf), get) : options;
+
+  if (!opts || typeof opts !== 'object') {
+    throw new Error(`Expected object options, encountered ${typeof opts}.`);
+  }
+  
+  !!opts && shouldThrowOnReservedKeys(opts);
+
+  const [merged, setMerged] = useState(() => shouldMerge(opts, transform));
   const [debouncedSetMerged] = useState(() => debounce(
     (e: useMergeResult) => requestAnimationFrame(() => setMerged(e)), 0)
   );
 
   useEffect(() => {
-    const next = shouldMerge(options, transform);
+    const next = shouldMerge(opts, transform);
+    cache[0] = next;
     !isEqual(merged, next) && debouncedSetMerged(next);
-  }, [options, debouncedSetMerged, merged, shouldMerge, transform]);
+  }, [opts, debouncedSetMerged, merged, shouldMerge, transform]);
 
   return merged;
 }

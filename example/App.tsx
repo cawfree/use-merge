@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
+
 import useMerge, { By } from "use-merge";
 
 export default function App() {
-  const { a, b, merged: { loading } } = useMerge({
+  const { a, b, merged: { loading } } = useMerge((x, get) => ({
     a: useState({ loading: false }),
     b: useState({ loading: false }),
-  })({ loading: By.Truthy });
+  }))({ loading: By.Truthy });
 
   const [{ loading: aIsLoading }, setA] = a;
   const [{ loading: bIsLoading }, setB] = b;
