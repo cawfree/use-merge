@@ -78,7 +78,7 @@ We got you covered. Pass a `function` into `useMerge` to retrieve the last merge
  const { a, b, c, merged: { loading, error } } = useMerge(({ a }, get) => ({
     a: useQuery(gql`...`),
     b: useQuery(gql`...`),
-    c: useQuery(gql`...${get(a, 'id')}`),
+    c: useQuery(gql`...${get(a, 'data.id')}`),
   }))({ loading: By.Truthy, error: By.Error });
 ```
 
