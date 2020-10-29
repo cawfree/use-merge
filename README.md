@@ -70,5 +70,17 @@ export default function SomeComponent() {
 
 This makes it much simpler, consistent and more efficient to handle the processing of multiple hooks within the scope of a single function.
 
+### 🤔 What about hooks which are dependent upon the output of others?
+
+We got you covered. Pass a `function` into `useMerge` to retrieve the last merged state. This is also exported alongside [`lodash.get`](https://lodash.com/docs/4.17.15#get) so you can safely interrogate deeply-nested, potentially uninitialized, objects.
+
+```javascript
+ const { a, b, c, merged: { loading, error } } = useMerge(({ a }, get) => ({
+    a: useQuery(gql`...`),
+    b: useQuery(gql`...`),
+    c: useQuery(gql`...${get(a, 'id')}`),
+  }))({ loading: By.Truthy, error: By.Error });
+```
+
 ## ✌️ License
 [**MIT**](./LICENSE)
