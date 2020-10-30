@@ -4,7 +4,8 @@ import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
 import useMerge, { By } from "use-merge";
 
 export default function App() {
-  const { a, b, merged: { loading } } = useMerge((x, get) => ({
+
+  const { a, b, merged: { loading } } = useMerge(({ a, b, merged }, get) => ({
     a: useState({ loading: false }),
     b: useState({ loading: false }),
   }))({ loading: By.Truthy });

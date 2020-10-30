@@ -108,13 +108,16 @@ function useMergeWithTransform(
 
   const [merged, setMerged] = useState(() => shouldMerge(opts, transform));
   const [debouncedSetMerged] = useState(() => debounce(
-    (e: useMergeResult) => requestAnimationFrame(() => setMerged(e)), 0)
-  );
+    (e: useMergeResult) => requestAnimationFrame(() => setMerged(e)),
+    0,
+  ));
 
   useEffect(() => {
     const next = shouldMerge(opts, transform);
-    cache[0] = next;
-    !isEqual(merged, next) && debouncedSetMerged(next);
+    if (!isEqual(merged, next)) {
+      cache[0] = next;
+      debouncedSetMerged(next);
+    }
   }, [opts, debouncedSetMerged, merged, shouldMerge, transform]);
 
   return merged;
